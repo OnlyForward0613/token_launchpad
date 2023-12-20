@@ -8,7 +8,7 @@ const Header: FC = () => {
       <div className="flex items-center justify-between">
         <Link href={"/"} className="">
           <div className="relative text-2xl text-white font-bold">
-            YOUR LOGO
+            SPL-Token Launchpad
           </div>
         </Link>
         <div className="flex items-center gap-2">
