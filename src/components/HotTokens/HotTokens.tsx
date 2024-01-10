@@ -15,6 +15,7 @@ export default function HotTokens() {
                 const data = await fetchPopularCollections();
                 setHottestData(data);
                 setIsLoading(false);
+                console.log(data, 'data>>><<<<>>><<<hottest')
                 // Handle the data as needed
             } catch (error) {
                 // Handle error
