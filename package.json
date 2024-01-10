@@ -19,6 +19,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.18",
     "@solana/web3.js": "^1.78.0",
     "next": "14.0.3",
+    "nextjs-cors": "^2.2.0",
     "react": "^18",
     "react-dom": "^18",
     "react-query": "^3.39.3"
