@@ -32,13 +32,19 @@ select {
     --background-end-rgb: 0, 0, 0;
   }
 }
-
+* {
+  overflow-x: hidden;
+}
 body {
   color: rgb(var(--foreground-rgb));
+  overflow-x: hidden;
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+main {
+  overflow-x: hidden;
 }

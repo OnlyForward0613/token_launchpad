@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'custom-lg': { 'min': '902px' },
+      },
       colors: {
         primary: {
           100: "#E4F5F2",
@@ -17,9 +20,18 @@ const config: Config = {
           500: "#435854",
           600: "#34554C",
           700: "#071B17",
+          800: "#1C1F27"
         },
         secondary: {
           100: "#507A6E",
+          200: "#111318",
+          300: "#080A0C",
+          400: "#637592",
+          500: "#191D24",
+          600: "#181B22",
+          700: "#5B687D",
+          800: "#313741",
+          900: "#10A678"
         },
       },
       backgroundImage: {

@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactNode } from "react";
 import { PageProvider } from "@/contexts/PageContext";
+import { ShowSideBarProvider } from "@/contexts/showSideBarContext";
 import { SolanaWalletProvider } from "@/contexts/SolanaWalletProvider";
 import { QueryClientProvider, QueryClient } from "react-query";
 
@@ -10,7 +11,9 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <SolanaWalletProvider>
       <QueryClientProvider client={queryClient}>
-        <PageProvider>{children}</PageProvider>
+        <ShowSideBarProvider>
+          <PageProvider>{children}</PageProvider>
+        </ShowSideBarProvider>
       </QueryClientProvider>
     </SolanaWalletProvider>
   );

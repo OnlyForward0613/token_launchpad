@@ -7,6 +7,11 @@ import Image from "next/image";
 import { toMetaplexFileFromBrowser } from '@metaplex-foundation/js';
 import { createSPLToken } from '@/contexts/createSPLToken';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import LandingHeader from '@/components/LandingHeader/LandingHeader';
+import HotTokens from '@/components/HotTokens/HotTokens';
+import DiscoverTokens from '@/components/DiscoverTokens/DiscoverTokens';
+import Banner from '@/components/Banner/Banner';
+import Footer from '@/components/Footer/Footer';
 
 export default function Home() {
 
@@ -68,9 +73,13 @@ export default function Home() {
   }
   
   return (
-    <main>
-      <Header />
-      <div className="bg-slate-900 w-full">
+    <main className='w-full min-w-[100vw] h-full min-h-screen bg-secondary-300'>
+      <LandingHeader />
+      <HotTokens />
+      <DiscoverTokens />
+      <Banner />
+      <Footer />
+      {/* <div className="bg-slate-900 w-full">
         <div className="w-2/5 py-32 m-auto">
           <div>
             <p className="text-lg text-white font-medium my-2">Name: </p>
@@ -129,7 +138,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
