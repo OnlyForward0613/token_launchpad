@@ -33,69 +33,7 @@ export default function DiscoverTokens() {
             setDiscoverNumber(15);
         }
     },[loadMore])
-    const tempData = [
-        {
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },{
-            title: 'Tiger Token',
-            imgUrl: '/icons/tiger_token.png',
-            mintedNumber: 750
-        },
-    ]
+    
     return (
         <div className='w-full px-6 md:px-[100px] py-6 md:py-[50px] flex items-center justify-center '>
             <div className='w-full max-w-[1440px] flex flex-col gap-[50px] text-white font-semibold'>
@@ -109,7 +47,7 @@ export default function DiscoverTokens() {
                 </div>
                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap-6'>
                     {(!isLoading) && (hottestData?.length) && hottestData.slice(0, discoverNumber).map((item, index) => (
-                        <DiscoverTokensComp title={item.name} imgUrl={item.logoURI} mintedNumber={item.mc}/>
+                        <DiscoverTokensComp title={item.name} imgUrl={item.logoURI} mintedNumber={item.mc} key={index}/>
                     ))}
                 </div>
                 <div className='flex mx-auto justify-center items-center'>

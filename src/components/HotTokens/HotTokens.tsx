@@ -38,7 +38,7 @@ export default function HotTokens() {
                     (!isLoading) && (hottestData?.length) && (
                         <div className=' grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6'>
                             {hottestData.slice(0,12).map((item, index) => (
-                                <HotTokensComp no={index + 1} title={item.name} imgUrl={item.image} mintNumber={item.volumeAll} />
+                                <HotTokensComp no={index + 1} title={item.name} imgUrl={item.image} mintNumber={item.volumeAll} key={index} />
                             ))}
                         </div>
                     )
