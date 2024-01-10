@@ -26,10 +26,17 @@ export default function HotTokens() {
     }, []);
 
     return (
-        <div className='w-full px-6 md:px-[100px] py-6 md:py-[50px] mt-[68px] md:mt-[80px] flex items-center justify-center relative' >
-            <LeftShadow />
-            <BigShadow />
-            <RightDecor />
+        <div className='w-full px-6 md:px-[100px] py-6 md:py-[50px] mt-[68px] md:mt-[80px] flex items-center justify-center' >
+            {(!isLoading) && (hottestData?.length) && (
+                <LeftShadow />
+            )}
+            {(!isLoading) && (hottestData?.length) && (
+                <BigShadow />
+            )}
+            {(!isLoading) && (hottestData?.length) && (
+                <RightDecor />
+            )}
+
             <div className='w-full max-w-[1440px] flex flex-col gap-8 md:gap-[60px] z-10'>
                 <div className=' capitalize font-semibold text-5xl md:text-[56px] text-white leading-[80px]'>
                     hot tokens 🔥<br />in the market
@@ -37,8 +44,10 @@ export default function HotTokens() {
                 {
                     (!isLoading) && (hottestData?.length) && (
                         <div className=' grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6'>
-                            {hottestData.slice(0,12).map((item, index) => (
-                                <HotTokensComp no={index + 1} title={item.name} imgUrl={item.image} mintNumber={item.volumeAll} key={index} />
+                            {hottestData.slice(0, 12).map((item, index) => (
+                                <div key={index}>
+                                    <HotTokensComp no={index + 1} title={item.name} imgUrl={item.image} mintNumber={item.volumeAll} />
+                                </div>
                             ))}
                         </div>
                     )
