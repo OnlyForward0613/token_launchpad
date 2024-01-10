@@ -5,7 +5,8 @@ const axiosInstanceHot = axios.create({
   mode: 'cors',
   headers: {
     'Content-Type': 'application/json' // Set the content type if needed
-  }
+  },
+  withCredentials: true
 });
 
 export default axiosInstanceHot;
