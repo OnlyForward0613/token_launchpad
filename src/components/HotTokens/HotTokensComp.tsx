@@ -23,7 +23,7 @@ const HotTokensComp:React.FC<Props> = ({no, title, imgUrl, mintNumber}) => {
                     {title}
                 </div>
                 <div className='text-xs text-secondary-400'>
-                    {mintNumber.toLocaleString()} Sol
+                    {mintNumber.toLocaleString()} $USD
                 </div>
             </div>
         </div>

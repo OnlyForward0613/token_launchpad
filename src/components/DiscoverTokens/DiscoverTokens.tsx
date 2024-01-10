@@ -8,13 +8,24 @@ export default function DiscoverTokens() {
     const [hottestData, setHottestData] = React.useState<any[]>();
     const [loadMore, setLoadMore] = React.useState(false);
     const [discoverNumber, setDiscoverNumber] = React.useState(15);
+    function getRandomSubarray(arr: any, length: number) {
+        const shuffled = arr.slice(0);
+        let i = arr.length;
+        while (i--) {
+            const index = Math.floor((i + 1) * Math.random());
+            [shuffled[i], shuffled[index]] = [shuffled[index], shuffled[i]];
+        }
+        return shuffled.slice(0, length);
+    }
+
     React.useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
                 const data = await fetchHotCollections();
+                const tempData = getRandomSubarray(data.data.tokens, data.data.tokens.length);
                 setTotalNumber(data.data.total);
-                setHottestData(data.data.tokens);
+                setHottestData(tempData);
                 setIsLoading(false);
                 console.log(data, '>>>>><<<<<');
                 // Handle the data as needed

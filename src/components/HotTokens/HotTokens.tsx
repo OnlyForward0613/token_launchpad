@@ -3,7 +3,7 @@ import HotTokensComp from './HotTokensComp'
 import BigShadow from './BigShadow'
 import RightDecor from './RightDecor'
 import LeftShadow from './LeftShadow'
-import { fetchPopularCollections } from '../../utils/fetchData';
+import { fetchHotCollections } from '../../utils/fetchData';
 
 export default function HotTokens() {
     const [hottestData, setHottestData] = React.useState<any[]>();
@@ -12,8 +12,8 @@ export default function HotTokens() {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const data = await fetchPopularCollections();
-                setHottestData(data);
+                const data = await fetchHotCollections();
+                setHottestData(data.data.tokens);
                 setIsLoading(false);
                 console.log(data, 'data>>><<<<>>><<<hottest')
                 // Handle the data as needed
@@ -47,7 +47,7 @@ export default function HotTokens() {
                         <div className=' grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6'>
                             {hottestData.slice(0, 12).map((item, index) => (
                                 <div key={index}>
-                                    <HotTokensComp no={index + 1} title={item.name} imgUrl={item.image} mintNumber={item.volumeAll} />
+                                    <HotTokensComp no={index + 1} title={item.name} imgUrl={item.logoURI} mintNumber={item.mc} />
                                 </div>
                             ))}
                         </div>
