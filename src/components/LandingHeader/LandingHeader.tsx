@@ -13,22 +13,25 @@ export default function LandingHeader() {
             <div className='px-5 md:px-[100px] py-4 md:py-6 bg-secondary-200 flex flex-col items-center justify-center w-full '>
                 <div className='max-w-[1440px] w-full flex justify-between items-center'>
                     <Image
-                        src='/header_logo.svg'
+                        src='/icons/logo.png'
                         alt='Logo Icon'
                         width={147}
-                        height={32}
+                        height={39}
                     />
                     <div className='hidden md:flex text-xs lg:text-sm xl:text-base items-center text-[white] font-semibold'>
-                        <Link href='/create-token' className='py-2 px-2 xl:px-4'>
+                        <Link href='/create-token' className='py-2 px-2 xl:px-4 hover:text-primary-200'>
                             Create Token
                         </Link>
-                        <Link href='' className='py-2 px-2 xl:px-4'>
+                        <Link href='my-token' className='py-2 px-2 xl:px-4 hover:text-primary-200'>
+                            My Tokens
+                        </Link>
+                        <Link href='' className='py-2 px-2 xl:px-4 hover:text-primary-200'>
                             Hot Tokens
                         </Link>
-                        <Link href='' className='py-2 px-2 xl:px-4'>
+                        <Link href='/faq' className='py-2 px-2 xl:px-4 hover:text-primary-200'>
                             FAQ
                         </Link>
-                        <Link href='' className='py-2 px-2 xl:px-4'>
+                        <Link href='' className='py-2 px-2 xl:px-4 hover:text-primary-200'>
                             Contact
                         </Link>
                     </div>

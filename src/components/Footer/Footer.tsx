@@ -10,7 +10,7 @@ export default function Footer() {
                     <div className='flex flex-col'>
                         <div className='flex justify-start'>
                             <img
-                                src='/logo.svg'
+                                src='/icons/logo_big.png'
                                 alt='logo'
                                 className='h-[70px] mb-4 float-left object-fill'
                             />
@@ -94,7 +94,7 @@ export default function Footer() {
             <div className='w-full px-5 sm:px-[100px] py-4 border-t border-t-secondary-600 flex items-center justify-center bg-secondary-200 '>
                 <div className='w-full max-w-[1440px] flex-col custom-lg:flex-row gap-4 flex items-center justify-between text-secondary-400 text-sm font-semibold'>
                     <div className=' hidden custom-lg:block'>
-                        ©2024 NFT SPL Token
+                        ©2024 MIRAGE
                     </div>
                     <div className='flex items-center gap-4'>
                         <div>
@@ -104,8 +104,62 @@ export default function Footer() {
                             Privacy Policy
                         </div>
                     </div>
-                    <div className=' block custom-lg:hidden'>
-                        ©2024 NFT SPL Token
+                    <div className=' hidden custom-lg:flex items-center gap-4'>
+                        <Link href=''>
+                            <Image
+                                src='/icons/twitter.svg'
+                                alt='twitter'
+                                width={22}
+                                height={22}
+                            />
+                        </Link>
+                        <Link href=''>
+                            <Image
+                                src='/icons/Telegram.svg'
+                                alt='telegram'
+                                width={24}
+                                height={24}
+                            />
+                        </Link>
+                        <Link href=''>
+                            <Image
+                                src='/icons/discord.svg'
+                                alt='discord'
+                                width={24}
+                                height={24}
+                            />
+                        </Link>
+                    </div>
+                    <div className=' flex w-full justify-between custom-lg:hidden'>
+                        <div className=''>
+                            ©2024 MIRAGE
+                        </div>
+                        <div className='flex items-center gap-4'>
+                            <Link href=''>
+                                <Image
+                                    src='/icons/twitter.svg'
+                                    alt='twitter'
+                                    width={22}
+                                    height={22}
+                                />
+                            </Link>
+                            <Link href=''>
+                                <Image
+                                    src='/icons/Telegram.svg'
+                                    alt='telegram'
+                                    width={24}
+                                    height={24}
+                                />
+                            </Link>
+                            <Link href=''>
+                                <Image
+                                    src='/icons/discord.svg'
+                                    alt='discord'
+                                    width={24}
+                                    height={24}
+                                />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

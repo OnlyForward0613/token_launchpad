@@ -9,6 +9,7 @@ import { createSPLToken } from '@/contexts/createSPLToken';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import LandingHeader from '@/components/LandingHeader/LandingHeader';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -427,11 +428,12 @@ export default function Home() {
                                 0.283201 Sol
                             </div>
                         </div>
-                        <button
+                        <Link 
+                            href='/my-token'
                             className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
                         >
                             Burn It
-                        </button>
+                        </Link>
                     </div>
                 )
             }
