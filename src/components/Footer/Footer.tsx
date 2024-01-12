@@ -45,7 +45,7 @@ export default function Footer() {
                             </button>
                         </div>
                     </div>
-                    <div className='flex justify-center items-start gap-10 grow max-w-[400px] lg:max-w-[500px]  xl:max-w-[600px]'>
+                    {/* <div className='flex justify-center items-start gap-10 grow max-w-[400px] lg:max-w-[500px]  xl:max-w-[600px]'>
                         <div className='flex flex-col font-normal items-start gap-4 grow '>
                             <div className='text-base '>
                                 Market
@@ -88,7 +88,7 @@ export default function Footer() {
                                 Affiliate
                             </Link>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className='w-full px-5 sm:px-[100px] py-4 border-t border-t-secondary-600 flex items-center justify-center bg-secondary-200 '>
