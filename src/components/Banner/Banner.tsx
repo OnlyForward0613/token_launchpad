@@ -5,7 +5,7 @@ import Image from 'next/image'
 export default function Banner() {
     return (
         <div className='w-full px-5 md:px-[100px] py-6 md:py-[50px] md:mb-[50px] flex items-center justify-center '>
-            <div className='relative w-full max-w-[1440px] py-16 flex flex-col rounded-md overflow-hidden items-center justify-center text-white font-semibold bg-cover bg-center' style={{backgroundImage: 'url("/green_back.png")'}}>
+            <div id = "contact" className='relative w-full max-w-[1440px] py-16 flex flex-col rounded-md overflow-hidden items-center justify-center text-white font-semibold bg-cover bg-center' style={{backgroundImage: 'url("/green_back.png")'}}>
                 <BannerContent />
                 <div className='absolute left-0 bottom-0 z-[7]'>
                     <img src="/left.png" alt='left_group' className='hidden lg:block' />

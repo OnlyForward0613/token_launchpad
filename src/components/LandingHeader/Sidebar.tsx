@@ -13,13 +13,13 @@ export default function Sidebar() {
                 <Link href='/create-token' className='py-2'>
                     Create Token
                 </Link>
-                <Link href='' className='py-2'>
+                <Link href='/' className='py-2'>
                     Hot Tokens
                 </Link>
                 <Link href='/faq' className='py-2'>
                     FAQ
                 </Link>
-                <Link href='' className='py-2'>
+                <Link href='/#contact' className='py-2'>
                     Contact
                 </Link>
             </div>

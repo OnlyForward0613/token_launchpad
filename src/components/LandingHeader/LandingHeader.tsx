@@ -33,13 +33,13 @@ export default function LandingHeader() {
                         <Link href='my-token' className={` ${pathName == '/my-token' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
                             My Tokens
                         </Link>
-                        <Link href='' className={` ${pathName == '/hot-token' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
+                        <Link href='/' className={` ${pathName == '/hot-token' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
                             Hot Tokens
                         </Link>
                         <Link href='/faq' className={` ${pathName == '/faq' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
                             FAQ
                         </Link>
-                        <Link href='' className={` ${pathName == '/contact' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
+                        <Link href='/#contact' className={` ${pathName == '/contact' && 'text-primary-200'} py-2 px-2 xl:px-4 hover:text-primary-200`}>
                             Contact
                         </Link>
                     </div>
