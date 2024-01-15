@@ -25,7 +25,7 @@ export default function Sidebar() {
             </div>
             <div className='flex items-center gap-4'>
                 <div className='flex items-center gap-4'>
-                    <Link href=''>
+                    <Link href='https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg'>
                         <Image
                             src='/icons/twitter.svg'
                             alt='twitter'
@@ -33,7 +33,7 @@ export default function Sidebar() {
                             height={22}
                         />
                     </Link>
-                    <Link href=''>
+                    <Link href='https://t.me/miragelaunchpad'>
                         <Image
                             src='/icons/Telegram.svg'
                             alt='telegram'
