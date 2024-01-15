@@ -33,7 +33,7 @@ export default function Footer() {
                                     </div>
                                 </button>
                             </Link>
-                            <Link href="https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg">
+                            <Link href="https://discord.gg/c89NbRqzmq">
                                 <button className='bg-primary-200 rounded-xl px-6 py-2 flex items-center justify-center gap-2'>
                                     <Image
                                         src='/icons/white_discord.svg'

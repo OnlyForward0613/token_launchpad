@@ -71,7 +71,7 @@ export default function LandingHeader() {
                                             height={24}
                                         />
                                     </Link>
-                                    <Link href=''>
+                                    <Link href='https://discord.gg/c89NbRqzmq'>
                                         <Image
                                             src='/icons/discord.svg'
                                             alt='discord'
