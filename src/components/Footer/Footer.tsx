@@ -19,30 +19,34 @@ export default function Footer() {
                             Enjoy the Leading of the<br />NFT Token Creator
                         </div>
                         <div className='flex items-center gap-4'>
-                            <button className='bg-primary-200 rounded-xl px-6 py-2 flex items-center justify-center gap-2'>
-                                <Image
-                                    src='/icons/white_twitter.svg'
-                                    alt='twitter_icon'
-                                    width={20}
-                                    height={20}
-                                    className='object-cover object-center '
-                                />
-                                <div className=''>
-                                    Twitter
-                                </div>
-                            </button>
-                            <button className='bg-primary-200 rounded-xl px-6 py-2 flex items-center justify-center gap-2'>
-                                <Image
-                                    src='/icons/white_discord.svg'
-                                    alt='discord_icon'
-                                    width={20}
-                                    height={20}
-                                    className='object-cover object-center '
-                                />
-                                <div className=''>
-                                    Discord
-                                </div>
-                            </button>
+                            <Link href="https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg">
+                                <button className='bg-primary-200 rounded-xl px-6 py-2 flex items-center justify-center gap-2'>
+                                    <Image
+                                        src='/icons/white_twitter.svg'
+                                        alt='twitter_icon'
+                                        width={20}
+                                        height={20}
+                                        className='object-cover object-center '
+                                    />
+                                    <div className=''>
+                                        Twitter
+                                    </div>
+                                </button>
+                            </Link>
+                            <Link href="https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg">
+                                <button className='bg-primary-200 rounded-xl px-6 py-2 flex items-center justify-center gap-2'>
+                                    <Image
+                                        src='/icons/white_discord.svg'
+                                        alt='discord_icon'
+                                        width={20}
+                                        height={20}
+                                        className='object-cover object-center '
+                                    />
+                                    <div className=''>
+                                        Discord
+                                    </div>
+                                </button>
+                            </Link>
                         </div>
                     </div>
                     {/* <div className='flex justify-center items-start gap-10 grow max-w-[400px] lg:max-w-[500px]  xl:max-w-[600px]'>

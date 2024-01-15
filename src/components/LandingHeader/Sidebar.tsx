@@ -16,7 +16,7 @@ export default function Sidebar() {
                 <Link href='' className='py-2'>
                     Hot Tokens
                 </Link>
-                <Link href='' className='py-2'>
+                <Link href='/faq' className='py-2'>
                     FAQ
                 </Link>
                 <Link href='' className='py-2'>

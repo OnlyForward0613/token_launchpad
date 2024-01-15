@@ -55,7 +55,7 @@ export default function LandingHeader() {
                         ) : (
                             <div className='flex items-center gap-2 lg:gap-4'>
                                 <div className='hidden lg:flex items-center gap-2 lg:gap-4'>
-                                    <Link href=''>
+                                    <Link href='https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg'>
                                         <Image
                                             src='/icons/twitter.svg'
                                             alt='twitter'
@@ -63,7 +63,7 @@ export default function LandingHeader() {
                                             height={22}
                                         />
                                     </Link>
-                                    <Link href=''>
+                                    <Link href='https://t.me/miragelaunchpad'>
                                         <Image
                                             src='/icons/Telegram.svg'
                                             alt='telegram'
