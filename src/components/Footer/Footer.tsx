@@ -117,7 +117,7 @@ export default function Footer() {
                                 height={22}
                             />
                         </Link>
-                        <Link href=''>
+                        <Link href='https://t.me/miragelaunchpad'>
                             <Image
                                 src='/icons/Telegram.svg'
                                 alt='telegram'
@@ -125,7 +125,7 @@ export default function Footer() {
                                 height={24}
                             />
                         </Link>
-                        <Link href=''>
+                        <Link href='https://discord.gg/c89NbRqzmq'>
                             <Image
                                 src='/icons/discord.svg'
                                 alt='discord'
@@ -139,7 +139,7 @@ export default function Footer() {
                             ©2024 MIRAGE
                         </div>
                         <div className='flex items-center gap-4'>
-                            <Link href=''>
+                            <Link href='https://x.com/miragelaunchpad?s=21&t=cy46oI2IX70z78oS7znwTg'>
                                 <Image
                                     src='/icons/twitter.svg'
                                     alt='twitter'
