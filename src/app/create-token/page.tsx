@@ -40,18 +40,25 @@ export default function Home() {
         router.push('/');
     }
     const handleCreateToken = async () => {
-        // if (
-        //     tokenName != "" &&
-        //     tokenSymbol != "" &&
-        //     tokenLogo != null &&
-        //     tokenBalance != 0
-        // ) {
-        //     if (!wallet.publicKey) return;
-        //     const _file = await toMetaplexFileFromBrowser(tokenLogo);
-        //     await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
-        // } else {
-        //     alert("Invalid params")
-        // }
+        if (
+            tokenName != "" &&
+            tokenSymbol != "" &&
+            tokenLogo != null &&
+            tokenBalance != 0
+            ) {
+                if (!wallet.publicKey) return;
+                alert("123");
+            const _file = await toMetaplexFileFromBrowser(tokenLogo);
+            console.log("file ====>", _file);
+            console.log("wallet publicKey ===>", wallet.publicKey, wallet);
+            console.log("connection ===>", connection);
+            console.log("tokenBalance ===>", tokenBalance);
+            console.log("tokenName ===>", tokenName);
+            console.log("tokenSymbol ===>", tokenSymbol);
+            // await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
+        } else {
+            alert("Invalid params")
+        }
         setStep(2);
     }
 

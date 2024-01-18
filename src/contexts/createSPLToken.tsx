@@ -56,7 +56,7 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
         else {
             if (file) {
                 const ImageUri = await metaplex.storage().upload(file);
-
+                console.log("imageuri ===>", ImageUri);
                 if (ImageUri) {
                     const { uri } = await metaplex.nfts().uploadMetadata({
                         name: tokenName,
@@ -64,6 +64,7 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
                         description: description,
                         image: ImageUri,
                     })
+                    console.log("uri ===>", uri);
                     if (uri) {
                         URI = uri
                     }
@@ -165,6 +166,8 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
             const createAccountTransaction = new Transaction().add(createMintAccountInstruction, InitMint, createATAInstruction, mintInstruction, MetadataInstruction);
 
             const createAccountSignature = await wallet.sendTransaction(createAccountTransaction, connection, { signers: [mint_account] });
+
+            console.log("createAccountSignature ===>", createAccountSignature);
 
             const createAccountconfirmed = await connection.confirmTransaction(createAccountSignature, 'confirmed');
 

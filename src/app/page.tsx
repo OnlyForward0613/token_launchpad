@@ -12,6 +12,7 @@ import HotTokens from '@/components/HotTokens/HotTokens';
 import DiscoverTokens from '@/components/DiscoverTokens/DiscoverTokens';
 import Banner from '@/components/Banner/Banner';
 import Footer from '@/components/Footer/Footer';
+import { RAYDIUM_MAINNET, Clmm } from '@raydium-io/raydium-sdk';
 
 export default function Home() {
 
