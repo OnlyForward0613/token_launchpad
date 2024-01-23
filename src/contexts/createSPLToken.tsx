@@ -1,9 +1,9 @@
-import { Token, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, MintLayout } from '@solana/spl-token';
-import { Connection, PublicKey, Transaction, SystemProgram, Keypair, TransactionInstruction } from '@solana/web3.js';
+import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, MintLayout, Token } from '@solana/spl-token';
+import { Connection, PublicKey, Transaction, SystemProgram, Keypair, TransactionInstruction, sendAndConfirmRawTransaction, sendAndConfirmTransaction } from '@solana/web3.js';
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Dispatch, SetStateAction } from 'react';
 import { PROGRAM_ID, DataV2, createCreateMetadataAccountV3Instruction } from '@metaplex-foundation/mpl-token-metadata';
-import { bundlrStorage, Metaplex, MetaplexFileTag, walletAdapterIdentity } from '@metaplex-foundation/js';
+import { bundlrStorage, Metaplex, MetaplexFileTag, walletAdapterIdentity, } from '@metaplex-foundation/js';
 
 export async function createSPLToken(owner: PublicKey, wallet: WalletContextState, connection: Connection, quantity: number, decimals: number, isChecked: boolean, tokenName: string, symbol: string, metadataURL: string, description: string, file: Readonly<{
     buffer: Buffer;
@@ -23,11 +23,13 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
         const metaplex = Metaplex.make(connection)
             .use(walletAdapterIdentity(wallet))
             .use(bundlrStorage({
-                address: 'https://devnet.bundlr.network',
+                address: 'https://node1.bundlr.network',
+                providerUrl: "https://cosmopolitan-greatest-wave.solana-mainnet.quiknode.pro/85222162e13661be38ab86fe26925e667496812d/",
                 timeout: 60000,
-              }));
+            }));
 
         const mint_rent = await Token.getMinBalanceRentForExemptMint(connection);
+        // Token.createSetAuthorityInstruction()
 
         const mint_account = Keypair.generate();
 
@@ -42,6 +44,7 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
         );
 
         let URI: string = ''
+        console.log("start =====>");
 
         if (metadataMethod == 'url') {
             if (metadataURL != '') {
@@ -55,6 +58,7 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
 
         else {
             if (file) {
+                console.log("upload ===>");
                 const ImageUri = await metaplex.storage().upload(file);
                 console.log("imageuri ===>", ImageUri);
                 if (ImageUri) {
@@ -162,24 +166,37 @@ export async function createSPLToken(owner: PublicKey, wallet: WalletContextStat
             );
 
             console.log("confirming");
-
+            if (wallet.publicKey == null) return;
             const createAccountTransaction = new Transaction().add(createMintAccountInstruction, InitMint, createATAInstruction, mintInstruction, MetadataInstruction);
+            if (wallet.signTransaction == undefined) return undefined;
+            const blockHash = await connection.getLatestBlockhash();
+            createAccountTransaction.recentBlockhash = blockHash.blockhash;
+            createAccountTransaction.feePayer = wallet.publicKey;
+
+            // const signedTX = await wallet.signTransaction(createAccountTransaction);
+
+            // const createAccountSignature = await sendAndConfirmTransaction(connection, signedTX, [mint_account]);
+            // console.log(await connection.simulateTransaction(createAccountTransaction));
 
             const createAccountSignature = await wallet.sendTransaction(createAccountTransaction, connection, { signers: [mint_account] });
 
             console.log("createAccountSignature ===>", createAccountSignature);
-
+            // return mint_account.publicKey;
             const createAccountconfirmed = await connection.confirmTransaction(createAccountSignature, 'confirmed');
+            if (createAccountconfirmed)
+                return mint_account.publicKey;
+            return undefined;
+            // const signature = createAccountSignature.toString()
 
-            const signature = createAccountSignature.toString()
 
-
-            if (createAccountconfirmed) {
-                console.log("confirmed: ", signature);
-                // setIscreating(false);
-                // setTokenAddresss(mint_account.publicKey.toBase58());
-                // setSignature(signature)
-            }
+            // if (createAccountconfirmed) {
+            //     console.log("confirmed: ", signature);
+            //     return mint_account.publicKey;
+            //     // setIscreating(false);
+            //     // setTokenAddresss(mint_account.publicKey.toBase58());
+            //     // setSignature(signature)
+            // }
+            // const newToken = new Token(connection, mint_account.publicKey, TOKEN_PROGRAM_ID, [wallet.publicKey]);
         }
 
     } catch (error) {

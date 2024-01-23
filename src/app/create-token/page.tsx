@@ -10,6 +10,18 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import LandingHeader from '@/components/LandingHeader/LandingHeader';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { MarketV2, DEVNET_PROGRAM_ID } from '@raydium-io/raydium-sdk';
+import { createMarket } from '@/contexts/createMarket';
+import { PublicKey } from '@solana/web3.js';
+import { revokeMintAuthority } from '@/contexts/revokeMintAuthority';
+import { revokeFreezeAuthority } from '@/contexts/revokeFreezeAuthority';
+import { createLiquidity } from '@/contexts/createLiquidity';
+import { burnToken } from '@/contexts/burnToken';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
+
+let mintAddress: PublicKey | undefined = undefined;
+let marketId: PublicKey | null = null;
+let lpMint: PublicKey | null | undefined = null;
 
 export default function Home() {
 
@@ -21,6 +33,7 @@ export default function Home() {
     const [tokenLogo, setTokenLogo] = useState<File | null>()
     const [tokenDecimal, setTokenDecimal] = useState(9)
     const [tokenBalance, setTokenBalance] = useState(0)
+    const [solBalance, setSolBalance] = useState('0')
 
     // const [isShowOrigin, setIsShowOrigin] = useState(false);
     // const wallet = useWallet();
@@ -40,14 +53,15 @@ export default function Home() {
         router.push('/');
     }
     const handleCreateToken = async () => {
+
         if (
             tokenName != "" &&
             tokenSymbol != "" &&
             tokenLogo != null &&
             tokenBalance != 0
-            ) {
-                if (!wallet.publicKey) return;
-                alert("123");
+        ) {
+            if (!wallet.publicKey) return;
+            alert("123");
             const _file = await toMetaplexFileFromBrowser(tokenLogo);
             console.log("file ====>", _file);
             console.log("wallet publicKey ===>", wallet.publicKey, wallet);
@@ -55,11 +69,25 @@ export default function Home() {
             console.log("tokenBalance ===>", tokenBalance);
             console.log("tokenName ===>", tokenName);
             console.log("tokenSymbol ===>", tokenSymbol);
-            // await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
+            mintAddress = await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
+
         } else {
             alert("Invalid params")
         }
         setStep(2);
+    }
+
+    const handleCreateMarket = async () => {
+        const baseMint = mintAddress != undefined ? mintAddress : new PublicKey("AXVANX9Exmoghok94dQkdLbQddpe9NjQkQ9heEcauDiF");
+        const baseDecimal = tokenDecimal;
+        const quoteMint = new PublicKey("So11111111111111111111111111111111111111112");
+        const quoteDecimal = 9;
+        const orderSize = 1;
+        const tickSize = 0.01;
+        alert("123");
+        marketId = await createMarket(connection, wallet, baseMint, baseDecimal, quoteMint, quoteDecimal, orderSize, tickSize);
+        console.log("creating market id ====>", marketId);
+        setStep(5);
     }
 
     const handleNameChange = (value: string) => {
@@ -80,6 +108,86 @@ export default function Home() {
     }
     const handleBalanceChange = (value: string) => {
         setTokenBalance(parseInt(value))
+    }
+    const handleSolBalanceChange = (value: string) => {
+        setSolBalance(value);
+
+        // alert(value);
+    }
+
+    const clickRevokeMint = async () => {
+        if (mintAddress == undefined) {
+            alert("mint address is not set");
+            return;
+        }
+        if (wallet.publicKey == null) {
+            alert("wallet is not configured");
+            return;
+        }
+        const mint = mintAddress;
+        console.log("revoke mint :mint ===>", mint.toBase58())
+        await revokeMintAuthority(connection, wallet, mint);
+        setStep(3);
+    }
+
+    const clickRevokeFreeze = async () => {
+        if (mintAddress == undefined) {
+            alert("mint address is not set");
+            return;
+        }
+        const mint = mintAddress;
+        console.log("revoke freeze: mint ==>", mint.toBase58());
+        await revokeFreezeAuthority(connection, wallet, mint);
+        setStep(4);
+    }
+    // LP Mint : GozTnFTuSphKc8V2rGnaUm56WGBFnWS3W99iPzhRFv6n
+    // AMM Id : CVtUnBf87fD3W3v1hcZ9kzXKSHDXjdXpDS6stFTYEPyp
+
+
+    // marketId : krnKbe4BiwN7rDDhto1kmnxJttXPnM5u8JDYbMSUL93
+    // AMM Id : DeaKJBnzRZEEGwfx9TLUSd6YHZuFqtLV9zCUj5PY8Aw8
+    const clickAddLiquidity = async () => {
+        if (marketId == undefined) {
+            alert("marketId is not set");
+            return;
+        }
+        if (mintAddress == undefined) {
+            alert("mint address is not set");
+            return;
+        }
+
+        console.log("Liquidity marketId ====>", marketId);
+        const baseMint = mintAddress;
+        // const baseMint = new PublicKey("24rsNkc3Xg5mMhPKLi5LvxkY7eS2R9d3CiaqGKUCEa4J");
+        const baseDecimal = tokenDecimal;
+        const quoteMint = new PublicKey("So11111111111111111111111111111111111111112");
+        const quoteDecimal = 9;
+        const orderSize = 1;
+        const tickSize = 0.01;
+        // const marketId1 = new PublicKey("krnKbe4BiwN7rDDhto1kmnxJttXPnM5u8JDYbMSUL93");
+        // const balanceElement = document.getElementById("sol-balance");
+        // if (balanceElement == null) return;
+        console.log("mintaddress ==>", baseMint.toBase58());
+        console.log("solbalance ===>", parseFloat(solBalance));
+        lpMint = await createLiquidity(connection, wallet, baseMint, baseDecimal, quoteMint, quoteDecimal, orderSize, tickSize, marketId, tokenBalance, parseFloat(solBalance));
+        setStep(6);
+    }
+
+    const clickBurnToken = async () => {
+        if (wallet.publicKey == null) {
+            alert("wallet is not configured yet");
+            return;
+        }
+        if (lpMint == undefined || null) {
+            alert("no LP token exist");
+            return;
+        }
+        const mint = lpMint;
+        console.log('lpMint ===>', lpMint);
+        const tokenAccountAddress = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, mint, wallet.publicKey);
+        console.log('tokenAccountAddress ===>', tokenAccountAddress.toBase58());
+        await burnToken(connection, wallet, mint, tokenAccountAddress);
+        router.push('my-token');
     }
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -150,7 +258,7 @@ export default function Home() {
                         </div>
                         <div className='w-full flex items-center justify-between gap-4'>
                             <div className='w-full flex flex-col gap-1'>
-                                <p className="text-sm text-secondary-400">Amount</p>
+                                <p className="text-sm text-secondary-400">Decimal</p>
                                 <input
                                     type="number"
                                     className="w-full rounded-xl text-sm bg-secondary-500 py-3 px-4 placeholder:text-secondary-700 text-white focus:ring-0 focus:border-0 focus:outline-none"
@@ -207,14 +315,14 @@ export default function Home() {
                                     className='object-cover object-center w-8 h-8'
                                 />
                                 <p className='truncate w-[90%] text-sm'>
-                                    0x8ad129ykba801298t1wopskgdfiyaasdas7gdas532vgd8b6123
+                                    {wallet.publicKey?.toBase58()}
                                 </p>
                             </div>
                         </div>
                         <div className='flex items-center gap-4'>
                             <button
                                 className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
-                                onClick={() => setStep(3)}
+                                onClick={clickRevokeMint}
                             >
                                 Revoke it
                             </button>
@@ -247,14 +355,14 @@ export default function Home() {
                                     className='object-cover object-center w-8 h-8'
                                 />
                                 <p className='truncate w-[90%] text-sm'>
-                                    0x8ad129ykba801298t1wopskgdfiyaasdas7gdas532vgd8b6123
+                                    {wallet.publicKey?.toBase58()}
                                 </p>
                             </div>
                         </div>
                         <div className='flex items-center gap-4'>
                             <button
                                 className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
-                                onClick={() => setStep(4)}
+                                onClick={clickRevokeFreeze}
                             >
                                 Confirm
                             </button>
@@ -269,7 +377,7 @@ export default function Home() {
                 )
             }
             {
-                step == 4 && (
+                step == 5 && (
                     <div className="flex flex-col max-w-[480px] w-full bg-secondary-200 rounded-xl p-6 gap-6">
                         <div className='flex items-center justify-between'>
                             <div className='text-white text-2xl font-semibold'>
@@ -281,7 +389,9 @@ export default function Home() {
                                 width={24}
                                 height={24}
                                 className='cursor-pointer'
-                                onClick={() => sendLanding()}
+                                onClick={
+                                    () => sendLanding()
+                                }
                             />
                         </div>
                         <div className='flex flex-col gap-1'>
@@ -295,7 +405,7 @@ export default function Home() {
                                     className='object-cover object-center w-8 h-8'
                                 />
                                 <p className='truncate w-[90%] text-sm'>
-                                    0x8ad129ykba801298t1wopskgdfiyaasdas7gdas532vgd8b6123
+                                    {wallet.publicKey?.toBase58()}
                                 </p>
                             </div>
                         </div>
@@ -306,16 +416,17 @@ export default function Home() {
                             <div className='w-full relative'>
                                 <input
                                     type="number"
+                                    id="sol-balance"
                                     className="w-full rounded-xl text-sm bg-secondary-500 py-3 px-4 placeholder:text-secondary-700 text-white focus:ring-0 focus:border-0 focus:outline-none"
-                                    onChange={(e) => handleBalanceChange(e.target.value)}
-                                    value={tokenBalance}
+                                    onChange={(e) => handleSolBalanceChange(e.target.value)}
+                                    value={solBalance}
                                 />
                                 <p className='absolute right-4 top-[10px] text-secondary-700'>$sol</p>
                             </div>
                         </div>
                         <button
                             className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
-                            onClick={() => setStep(5)}
+                            onClick={clickAddLiquidity}
                         >
                             Add Liquidity
                         </button>
@@ -323,7 +434,7 @@ export default function Home() {
                 )
             }
             {
-                step == 5 && (
+                step == 4 && (
                     <div className="flex flex-col max-w-[480px] w-full bg-secondary-200 rounded-xl p-6 gap-6">
                         <div className='flex items-center justify-between'>
                             <div className='text-white text-2xl font-semibold'>
@@ -349,7 +460,7 @@ export default function Home() {
                                     className='object-cover object-center w-8 h-8'
                                 />
                                 <p className='truncate w-[90%]'>
-                                    0x8ad129ykba801298t1wopskgdfiyaasdas7gdas532vgd8b6123
+                                    {wallet.publicKey?.toBase58()}
                                 </p>
                             </div>
                         </div>
@@ -363,7 +474,7 @@ export default function Home() {
                         </div>
                         <button
                             className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
-                            onClick={() => setStep(6)}
+                            onClick={handleCreateMarket}
                         >
                             Create Market
                         </button>
@@ -397,7 +508,7 @@ export default function Home() {
                                     className='object-cover object-center w-8 h-8'
                                 />
                                 <p className='truncate w-[90%] text-sm'>
-                                    0x8ad129ykba801298t1wopskgdfiyaasdas7gdas532vgd8b6123
+                                    {wallet.publicKey?.toBase58()}
                                 </p>
                             </div>
                         </div>
@@ -417,7 +528,7 @@ export default function Home() {
                                     </div>
                                     <div className='text-xs text-secondary-900'>
                                         <span>
-                                            Amount: 9
+                                            Decimal: 9
                                         </span>
                                         &nbsp;&nbsp;&nbsp;
                                         <span>
@@ -435,12 +546,12 @@ export default function Home() {
                                 0.283201 Sol
                             </div>
                         </div>
-                        <Link 
-                            href='/my-token'
+                        <div
                             className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
+                            onClick={clickBurnToken}
                         >
                             Burn It
-                        </Link>
+                        </div>
                     </div>
                 )
             }
