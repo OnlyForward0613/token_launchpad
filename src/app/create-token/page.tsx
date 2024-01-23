@@ -654,24 +654,24 @@ export default function Home() {
                                     </div>
                                     <div className='text-xs text-secondary-900'>
                                         <span>
-                                            Decimal: 9
+                                            Decimal: {tokenDecimal}
                                         </span>
                                         &nbsp;&nbsp;&nbsp;
                                         <span>
-                                            Token to Mint: 1000
+                                            Token to Mint: {tokenBalance}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex items-center justify-between'>
+                        {/* <div className='flex items-center justify-between'>
                             <div className='text-secondary-400 text-sm font-normal'>
                                 You will receive
                             </div>
                             <div className='text-white font-semibold text-sm'>
                                 0.283201 Sol
                             </div>
-                        </div>
+                        </div> */}
                         <div
                             className="w-full py-3 px-6 text-[white] text-sm font-semibold text-center rounded-xl bg-primary-200"
                             onClick={clickBurnToken}
