@@ -97,6 +97,7 @@ export default function Home() {
                 message: 'Invalid params',
                 severity: 'error',
             })
+            return;
             // alert("Invalid params")
         }
         setStep(2);
@@ -177,7 +178,7 @@ export default function Home() {
         console.log("revoke mint :mint ===>", mint.toBase58())
         setAlertState({
             open: true,
-            message: 'Loading...',
+            message: 'Transaction is in progress...',
             severity: 'info',
         })
         await revokeMintAuthority(connection, wallet, mint);
@@ -203,7 +204,7 @@ export default function Home() {
         console.log("revoke freeze: mint ==>", mint.toBase58());
         setAlertState({
             open: true,
-            message: 'Loading...',
+            message: 'Transaction is in progress...',
             severity: 'info',
         })
         await revokeFreezeAuthority(connection, wallet, mint);
@@ -255,7 +256,7 @@ export default function Home() {
         console.log("solbalance ===>", parseFloat(solBalance));
         setAlertState({
             open: true,
-            message: 'Loading...',
+            message: 'Transaction is in progress...',
             severity: 'info',
         })
         lpMint = await createLiquidity(connection, wallet, baseMint, baseDecimal, quoteMint, quoteDecimal, orderSize, tickSize, marketId, tokenBalance, parseFloat(solBalance));
@@ -292,7 +293,7 @@ export default function Home() {
         console.log('tokenAccountAddress ===>', tokenAccountAddress.toBase58());
         setAlertState({
             open: true,
-            message: 'Loading...',
+            message: 'Transaction is in progress...',
             severity: 'error',
         })
         await burnToken(connection, wallet, mint, tokenAccountAddress);
