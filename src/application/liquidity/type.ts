@@ -17,7 +17,6 @@ export type SDKParsedLiquidityInfo = ReplaceType<LiquidityJsonInfo, string, Publ
   startTime: BN // second
 }
 /** computed by other info  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 
 export interface HydratedLiquidityInfo extends Omit<SDKParsedLiquidityInfo, 'startTime'> {
   sdkInfo: SDKParsedLiquidityInfo

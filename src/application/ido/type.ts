@@ -69,7 +69,6 @@ export interface SdkIdoInfo extends BackendApiIdoListItem {
 /**
  * this is the  idoInfo with some calculated result
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 //TODO: hydratedInfo has property sdkParsedInfo
 export interface HydratedIdoInfo extends SdkIdoInfo, BackendApiIdoListItem, Partial<BackendApiIdoProjectDetails> {
   // privously is
