@@ -111,7 +111,6 @@ const innerRouteStack = [] as { url: string }[]
 
 // TODO: parse url query function (can have prevState of zustand store)
 export function routeTo<ToPage extends keyof PageRouteConfigs>(
-  // eslint-disable-next-line @typescript-eslint/ban-types
   toPage: ToPage | (string & {}),
   opts?: MayFunction<PageRouteConfigs[ToPage], [{ currentPageQuery: ParsedUrlQuery }]>
 ) {

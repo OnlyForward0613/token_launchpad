@@ -33,6 +33,7 @@ export async function sendTransactionCore({
     const newPromise = new Promise<string>((resolve) => {
       resolveFn = resolve
     })
+    if(resolveFn == undefined)   return "";
     tempBatchedTransactionsQueue.push({ tx: transaction, txidPromise: newPromise, resolveFn })
     // once all tx load, start batch sending
     if (tempBatchedTransactionsQueue.length === batchOptions.allSignedTransactions.length) {
@@ -89,7 +90,6 @@ async function sendBatchedTransactions(
     return { methodName: 'sendTransaction', args }
   })
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const results = (await payload.connection._rpcBatchRequest(batch)).map((ii) => ii.result.value)
   return results

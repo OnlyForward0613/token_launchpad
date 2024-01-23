@@ -5,7 +5,6 @@ export async function getEphemeralSigners() {
   return adapter &&
     'standard' in adapter &&
     'fuse:getEphemeralSigners' in adapter.wallet.features &&
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     adapter.wallet.features['fuse:getEphemeralSigners'].getEphemeralSigners
 }

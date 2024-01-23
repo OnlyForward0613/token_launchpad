@@ -82,7 +82,6 @@ export default function useLiquidityUrlParser() {
 
     const urlCoin1Amount = String(query.amount0 ?? '')
     const urlCoin2Amount = String(query.amount1 ?? '')
-    // eslint-disable-next-line @typescript-eslint/ban-types
     const urlFixedSide = String(query.fixed ?? '') as EnumStr | 'coin0' | 'coin1'
     const mode = String(query.mode ?? '')
 
