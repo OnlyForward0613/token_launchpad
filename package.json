@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "@metaplex-foundation/js": "^0.19.4",
     "@metaplex-foundation/mpl-token-metadata": "^2.9.1",
     "@project-serum/anchor": "^0.19.1-beta.1",

@@ -18,6 +18,13 @@ import { revokeFreezeAuthority } from '@/contexts/revokeFreezeAuthority';
 import { createLiquidity } from '@/contexts/createLiquidity';
 import { burnToken } from '@/contexts/burnToken';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
+import { Snackbar } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
+interface AlertState {
+    open: boolean
+    message: string
+    severity: 'success' | 'info' | 'warning' | 'error' | undefined
+}
 
 let mintAddress: PublicKey | undefined = undefined;
 let marketId: PublicKey | null = null;
@@ -31,10 +38,15 @@ export default function Home() {
     const [tokenName, setTokenName] = useState("")
     const [tokenSymbol, setTokenSymbol] = useState("")
     const [tokenLogo, setTokenLogo] = useState<File | null>()
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [tokenDecimal, setTokenDecimal] = useState(9)
     const [tokenBalance, setTokenBalance] = useState(0)
     const [solBalance, setSolBalance] = useState('0')
-
+    const [alertState, setAlertState] = useState<AlertState>({
+        open: false,
+        message: '',
+        severity: undefined,
+    })
     // const [isShowOrigin, setIsShowOrigin] = useState(false);
     // const wallet = useWallet();
     // const [loading, setLoading] = useState(false);
@@ -61,7 +73,6 @@ export default function Home() {
             tokenBalance != 0
         ) {
             if (!wallet.publicKey) return;
-            alert("123");
             const _file = await toMetaplexFileFromBrowser(tokenLogo);
             console.log("file ====>", _file);
             console.log("wallet publicKey ===>", wallet.publicKey, wallet);
@@ -69,10 +80,24 @@ export default function Home() {
             console.log("tokenBalance ===>", tokenBalance);
             console.log("tokenName ===>", tokenName);
             console.log("tokenSymbol ===>", tokenSymbol);
+            setAlertState({
+                open: true,
+                message: 'Loading...',
+                severity: 'info',
+            })
             mintAddress = await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
-
+            setAlertState({
+                open: false,
+                message: 'Done',
+                severity: 'info',
+            })
         } else {
-            alert("Invalid params")
+            setAlertState({
+                open: true,
+                message: 'Invalid params',
+                severity: 'error',
+            })
+            // alert("Invalid params")
         }
         setStep(2);
     }
@@ -84,9 +109,18 @@ export default function Home() {
         const quoteDecimal = 9;
         const orderSize = 1;
         const tickSize = 0.01;
-        alert("123");
+        setAlertState({
+            open: true,
+            message: 'Loading...',
+            severity: 'info',
+        })
         marketId = await createMarket(connection, wallet, baseMint, baseDecimal, quoteMint, quoteDecimal, orderSize, tickSize);
         console.log("creating market id ====>", marketId);
+        setAlertState({
+            open: false,
+            message: 'Done',
+            severity: 'info',
+        })
         setStep(5);
     }
 
@@ -99,7 +133,12 @@ export default function Home() {
     const handleLogoFileChange = (files: FileList | null) => {
         if (files) {
             setTokenLogo(files[0])
+            if (files[0]) {
+                const imageUrls = Object.values(files).map((file) => URL.createObjectURL(file));
+                setImageUrl(imageUrls[0]);
+            }
         } else {
+            setImageUrl('');
             setTokenLogo(null)
         }
     }
@@ -117,27 +156,62 @@ export default function Home() {
 
     const clickRevokeMint = async () => {
         if (mintAddress == undefined) {
-            alert("mint address is not set");
+            setAlertState({
+                open: true,
+                message: 'Mint Address Not Set',
+                severity: 'error',
+            })
+            // alert("mint address is not set");
             return;
         }
         if (wallet.publicKey == null) {
-            alert("wallet is not configured");
+            setAlertState({
+                open: true,
+                message: 'Wallet Not Configured',
+                severity: 'error',
+            })
+            // alert("wallet is not configured");
             return;
         }
         const mint = mintAddress;
         console.log("revoke mint :mint ===>", mint.toBase58())
+        setAlertState({
+            open: true,
+            message: 'Loading...',
+            severity: 'info',
+        })
         await revokeMintAuthority(connection, wallet, mint);
+        setAlertState({
+            open: false,
+            message: 'Done',
+            severity: 'info',
+        })
         setStep(3);
     }
 
     const clickRevokeFreeze = async () => {
         if (mintAddress == undefined) {
-            alert("mint address is not set");
+            setAlertState({
+                open: true,
+                message: 'Mint Address Not Set',
+                severity: 'error',
+            })
+            // alert("mint address is not set");
             return;
         }
         const mint = mintAddress;
         console.log("revoke freeze: mint ==>", mint.toBase58());
+        setAlertState({
+            open: true,
+            message: 'Loading...',
+            severity: 'info',
+        })
         await revokeFreezeAuthority(connection, wallet, mint);
+        setAlertState({
+            open: false,
+            message: 'Done',
+            severity: 'info',
+        })
         setStep(4);
     }
     // LP Mint : GozTnFTuSphKc8V2rGnaUm56WGBFnWS3W99iPzhRFv6n
@@ -148,11 +222,21 @@ export default function Home() {
     // AMM Id : DeaKJBnzRZEEGwfx9TLUSd6YHZuFqtLV9zCUj5PY8Aw8
     const clickAddLiquidity = async () => {
         if (marketId == undefined) {
-            alert("marketId is not set");
+            setAlertState({
+                open: true,
+                message: 'MarketID not Set',
+                severity: 'error',
+            })
+            // alert("marketId is not set");
             return;
         }
         if (mintAddress == undefined) {
-            alert("mint address is not set");
+            setAlertState({
+                open: true,
+                message: 'Mint Address Not Set',
+                severity: 'error',
+            })
+            // alert("mint address is not set");
             return;
         }
 
@@ -169,24 +253,54 @@ export default function Home() {
         // if (balanceElement == null) return;
         console.log("mintaddress ==>", baseMint.toBase58());
         console.log("solbalance ===>", parseFloat(solBalance));
+        setAlertState({
+            open: true,
+            message: 'Loading...',
+            severity: 'info',
+        })
         lpMint = await createLiquidity(connection, wallet, baseMint, baseDecimal, quoteMint, quoteDecimal, orderSize, tickSize, marketId, tokenBalance, parseFloat(solBalance));
+        setAlertState({
+            open: false,
+            message: 'Done',
+            severity: 'info',
+        })
         setStep(6);
     }
 
     const clickBurnToken = async () => {
         if (wallet.publicKey == null) {
-            alert("wallet is not configured yet");
+            setAlertState({
+                open: true,
+                message: 'Wallet Not Configured Yet',
+                severity: 'error',
+            })
+            // alert("wallet is not configured yet");
             return;
         }
         if (lpMint == undefined || null) {
-            alert("no LP token exist");
+            setAlertState({
+                open: true,
+                message: 'No LP Token Exist',
+                severity: 'error',
+            })
+            // alert("no LP token exist");
             return;
         }
         const mint = lpMint;
         console.log('lpMint ===>', lpMint);
         const tokenAccountAddress = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, mint, wallet.publicKey);
         console.log('tokenAccountAddress ===>', tokenAccountAddress.toBase58());
+        setAlertState({
+            open: true,
+            message: 'Loading...',
+            severity: 'error',
+        })
         await burnToken(connection, wallet, mint, tokenAccountAddress);
+        setAlertState({
+            open: false,
+            message: 'Done',
+            severity: 'info',
+        })
         router.push('my-token');
     }
 
@@ -235,8 +349,8 @@ export default function Home() {
                         </div>
                         <div className='flex flex-col gap-1'>
                             <p className="text-sm text-secondary-400">Token Logo</p>
-                            <div className='w-full bg-secondary-500 flex flex-col items-center px-4 py-3 gap-3'>
-                                <div className='flex flex-col items-center'>
+                            <div className='w-full relative bg-secondary-500 flex flex-col items-center px-4 py-3 gap-3'>
+                                <div className='flex flex-col items-center z-10'>
                                     <div className='text-white text-sm font-normal'>
                                         Token Symbol
                                     </div>
@@ -244,7 +358,7 @@ export default function Home() {
                                         Token Name
                                     </div>
                                 </div>
-                                <button className='bg-secondary-800 rounded-xl text-white px-4 py-2 text-sm font-semibold' onClick={handleBig}>
+                                <button className='bg-secondary-800 rounded-xl text-white px-4 py-2 text-sm font-semibold z-10' onClick={handleBig}>
                                     Upload File
                                     <input
                                         type="file"
@@ -254,6 +368,17 @@ export default function Home() {
                                         onChange={(e) => handleLogoFileChange(e.target.files)}
                                     />
                                 </button>
+                                {
+                                    imageUrl && (
+                                        <div className='absolute border-2 border-white rounded-lg z-0 '>
+                                            <img
+                                                src={imageUrl}
+                                                alt='fox'
+                                                className='object-cover object-center max-h-[90px] aspect-square '
+                                            />
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                         <div className='w-full flex items-center justify-between gap-4'>
@@ -555,6 +680,19 @@ export default function Home() {
                     </div>
                 )
             }
+            <Snackbar
+                open={alertState.open}
+                autoHideDuration={6000}
+                onClose={() => setAlertState({ ...alertState, open: false })}
+            >
+                <Alert
+                    onClose={() => setAlertState({ ...alertState, open: false })}
+                    severity={alertState.severity}
+                    className='text-[red]'
+                >
+                    {alertState.message}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
