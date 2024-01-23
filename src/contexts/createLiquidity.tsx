@@ -1,9 +1,7 @@
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, MintLayout, Token } from '@solana/spl-token';
 import { Connection, PublicKey, Transaction, SystemProgram, Keypair, TransactionInstruction } from '@solana/web3.js';
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Liquidity, TokenAccount, MAINNET_PROGRAM_ID, SPL_ACCOUNT_LAYOUT, TxVersion } from '@raydium-io/raydium-sdk';
-import toBN from '@/functions/numberish/toBN';
-import { getComputeBudgetConfig } from '@/application/txTools/getComputeBudgetConfig';
+import { Liquidity, TokenAccount, MAINNET_PROGRAM_ID, SPL_ACCOUNT_LAYOUT, TxVersion, ComputeBudgetConfig } from '@raydium-io/raydium-sdk';
 import { BN } from '@project-serum/anchor';
 
 const raydiumProgram = MAINNET_PROGRAM_ID;
@@ -34,7 +32,10 @@ export async function createLiquidity(
         console.log("tokenAccountsinfo ===>", tokenAccountsInfo);
         console.log("marketid===>", marketId.toBase58());
         try {
-            const budget = await getComputeBudgetConfig();
+            const budget: ComputeBudgetConfig = {
+                units: 600000,
+                microLamports: 25000
+            };
             console.log("budget ===>", budget);
             console.log("before creating instruction!!!");
             const { innerTransactions, address } = await Liquidity.makeCreatePoolV4InstructionV2Simple({

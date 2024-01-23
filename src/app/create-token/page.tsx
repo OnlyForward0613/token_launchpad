@@ -82,7 +82,7 @@ export default function Home() {
             console.log("tokenSymbol ===>", tokenSymbol);
             setAlertState({
                 open: true,
-                message: 'Loading...',
+                message: 'Transaction is in progress...',
                 severity: 'info',
             })
             mintAddress = await createSPLToken(wallet.publicKey, wallet, connection, tokenBalance, tokenDecimal, true, tokenName, tokenSymbol, "", "", _file, "string")
